@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مكان خاص جداً ❤️</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Great+Vibes&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #1a0505 0%, #360909 50%, #4a0d0d 100%);
+            color: #ffffff;
+            min-height: 100vh;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        .rain-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .falling-item {
+            position: absolute;
+            top: -50px;
+            color: #ef4444;
+            font-weight: bold;
+            user-select: none;
+            animation: fall linear infinite;
+            text-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+        }
+        .falling-letter {
+            font-family: 'Great Vibes', cursive, 'Cairo', sans-serif;
+        }
+        @keyframes fall {
+            0% {
+                transform: translateY(-50px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(105vh) rotate(360deg);
+                opacity: 0.2;
+            }
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center p-4 relative overflow-x-hidden">
+
+    <!-- حاوية تساقط الحروف والقلوب -->
+    <div class="rain-container" id="rainContainer"></div>
+
+    <div class="w-full max-w-lg z-10 my-8">
+        <!-- الهيدر -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-extrabold text-red-400 mb-2 drop-shadow-md">أسئلة من القلب ❤️</h1>
+            <p class="text-gray-300 text-sm">جاوبي بصراحة.. كل إجابة منك تهمني جداً ✨</p>
+        </div>
+
+        <!-- نموذج الأسئلة -->
+        <div id="quizSection" class="glass-card rounded-2xl p-6 transition-all duration-500">
+            <form action="https://formspree.io/f/xknkyrep" method="POST" id="quizForm" onsubmit="handleFormSubmit(event)">
+                
+                <!-- بريدك الإلكتروني مخفي لاستقبال الرسائل -->
+                <input type="hidden" name="_replyto" value="ahmedsonss12@gmail.com">
+                <input type="hidden" name="_subject" value="إجابات جديدة من الموقع الرومانسي! ❤️">
+
+                <!-- السؤال 1 -->
+                <div class="mb-5">
+                    <label class="block text-red-300 font-semibold mb-2 text-sm">1. بدأتي تحبيني امتي بجد مع إضافة شرح تفصيلي؟ 😖</label>
+                    <textarea name="س_1_متى_بدأ_الحب" required rows="3" placeholder="احكيلي التفاصيل والموقف بالضبط..." class="w-full bg-black/40 border border-red-500/30 rounded-xl p-3 text-white placeholder-gray-500 focus:outline-none focus:border-red-500 text-sm resize-none"></textarea>
+                </div>
+
+                <!-- السؤال 2 -->
+                <div class="mb-5">
+                    <label class="block text-red-300 font-semibold mb-2 text-sm">2. إيه أكثر حاجة خليتك تحبيني؟</label>
+                    <input type="text" name="س_2_اكثر_حاجة_خليتك_تحبيني" required placeholder="أكثر صفة أو موقف..." class="w-full bg-black/40 border border-red-500/30 rounded-xl p-3 text-white placeholder-gray-500 focus:outline-none focus:border-red-500 text-sm">
+                </div>
+
+                <!-- السؤال 3 -->
+                <div class="mb-5">
+                    <label class="block text-red-300 font-semibold mb-2 text-sm">3. إيه المميز اللي خلاكي تحبيني أصلاً؟</label>
+                    <input type="text" name="س_3_الحاجة_المميزة" required placeholder="شيء مميز شفتيه فيا..." class="w-full bg-black/40 border border-red-500/30 rounded-xl p-3 text-white placeholder-gray-500 focus:outline-none focus:border-red-500 text-sm">
+                </div>
+
+                <!-- السؤال 4 -->
+                <div class="mb-5">
+                    <label class="block text-red-300 font-semibold mb-2 text-sm">4. أكثر مغني أو أغنية بحبها وخمنيها؟ 🎵</label>
+                    <input type="text" name="س_4_المغني_او_الاغنية" required placeholder="عارف مش هتعرفي.. جربي تخمني 😉" class="w-full bg-black/40 border border-red-500/30 rounded-xl p-3 text-white placeholder-gray-500 focus:outline-none focus:border-red-500 text-sm">
+                </div>
+
+                <!-- السؤال 5 -->
+                <div class="mb-6">
+                    <label class="block text-red-300 font-semibold mb-2 text-sm">5. عيد ميلادي امتي؟ 🤨</label>
+                    <input type="text" name="س_5_تاريخ_عيد_الميلاد" required placeholder="التاريخ يوم وشهر..." class="w-full bg-black/40 border border-red-500/30 rounded-xl p-3 text-white placeholder-gray-500 focus:outline-none focus:border-red-500 text-sm">
+                </div>
+
+                <!-- زر الإرسال -->
+                <button type="submit" id="submitBtn" class="w-full bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white font-bold py-3.5 rounded-xl shadow-lg transform active:scale-95 transition text-center flex items-center justify-center gap-2">
+                    <span>إرسال الإجابات</span>
+                    <span>💌</span>
+                </button>
+            </form>
+        </div>
+
+        <!-- قسم زر الهدية (يظهر بعد الإرسال) -->
+        <div id="giftSection" class="hidden glass-card rounded-2xl p-6 text-center animate-fade-in">
+            <div class="text-5xl mb-4">🎁</div>
+            <h2 class="text-2xl font-bold text-red-300 mb-2">شكراً لإجاباتك يا حبيبتي! ❤️</h2>
+            <p class="text-gray-300 text-sm mb-6">وصلتني إجاباتك الجميلة، ودلوقتي عندك هدية خاصة مستنياكي!</p>
+            
+            <button onclick="openGiftModal()" class="w-full bg-gradient-to-r from-amber-500 to-red-600 hover:from-amber-600 hover:to-red-700 text-white font-bold py-3.5 rounded-xl shadow-lg transform active:scale-95 transition flex items-center justify-center gap-2">
+                <span>استلام الهدية</span>
+                <span>🔐</span>
+            </button>
+        </div>
+
+        <!-- مودال كلمة سر الهدية -->
+        <div id="giftModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div class="glass-card rounded-2xl p-6 w-full max-w-sm text-center border-red-500/50">
+                <div class="text-4xl mb-3">🗝️</div>
+                <h3 class="text-xl font-bold text-white mb-2">افتحي الهدية</h3>
+                <p class="text-xs text-gray-300 mb-4">ادخلي كلمة السر الخاصة بالهدية لفتحها</p>
+                
+                <input type="password" id="giftPassword" placeholder="كلمة السر..." class="w-full bg-black/50 border border-red-500/40 rounded-xl p-3 text-center text-white placeholder-gray-500 mb-4 focus:outline-none focus:border-red-500">
+                
+                <div id="errorMsg" class="text-red-400 text-xs mb-3 hidden">كلمة السر غير صحيحة، حاولي تاني! ❌</div>
+
+                <div class="flex gap-2">
+                    <button onclick="unlockGift()" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 rounded-xl transition text-sm">فتح الهدية</button>
+                    <button onclick="closeGiftModal()" class="bg-gray-700 hover:bg-gray-600 text-white py-2.5 px-4 rounded-xl transition text-sm">إلغاء</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- محتوى الهدية المفتوحة -->
+        <div id="giftContent" class="hidden glass-card rounded-2xl p-8 text-center border-2 border-red-500/60 shadow-2xl animate-bounce-short">
+            <div class="text-6xl mb-4 animate-pulse">💖</div>
+            <h2 class="text-2xl font-extrabold text-red-400 mb-4">هدية حبيبتي ❤️</h2>
+            <div class="p-4 bg-red-950/40 rounded-xl border border-red-500/30 mb-6">
+                <p class="text-lg font-bold text-pink-200 leading-relaxed">
+                    "بحبك وهفضل احبك من كل قلبي وكل يوم ❤️"
+                </p>
+            </div>
+            <p class="text-xs text-gray-400">أنتِ أغلى حاجة في حياتي ✨</p>
+        </div>
+
+    </div>
+
+    <script>
+        // أنيميشن تساقط حروف Maryomty والقلوب الحمراء
+        function createRainEffect() {
+            const container = document.getElementById('rainContainer');
+            const word = "Maryomty";
+            const hearts = ['❤️', '💖', '❣', '💕'];
+            
+            // إنشاء العناصر بشكل متكرر مستمر
+            setInterval(() => {
+                const item = document.createElement('div');
+                
+                // اختيار عشوائي بين حرف من الكلمة أو قلب
+                const isLetter = Math.random() > 0.3;
+                
+                if (isLetter) {
+                    const randomChar = word[Math.floor(Math.random() * word.length)];
+                    item.innerText = randomChar;
+                    item.className = 'falling-item falling-letter';
+                    item.style.fontSize = (Math.random() * 16 + 20) + 'px'; // حجم الحرف
+                } else {
+                    const randomHeart = hearts[Math.floor(Math.random() * hearts.length)];
+                    item.innerText = randomHeart;
+                    item.className = 'falling-item';
+                    item.style.fontSize = (Math.random() * 12 + 16) + 'px'; // حجم القلب
+                }
+                
+                item.style.left = Math.random() * 95 + 'vw';
+                const duration = Math.random() * 4 + 4; // السرعة من 4 لـ 8 ثواني
+                item.style.animationDuration = duration + 's';
+                
+                container.appendChild(item);
+                
+                // تنظيف العناصر بعد انتهاء الأنيميشن
+                setTimeout(() => {
+                    item.remove();
+                }, duration * 1000);
+            }, 250); // يظهر عنصر جديد كل ربع ثانية
+        }
+        
+        createRainEffect();
+
+        // التعامل مع إرسال النموذج
+        async function handleFormSubmit(event) {
+            event.preventDefault();
+            const form = event.target;
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'جاري الإرسال... ⏳';
+
+            try {
+                const response = await fetch(form.action, {
+                    method: form.method,
+                    body: new FormData(form),
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (response.ok) {
+                    document.getElementById('quizSection').classList.add('hidden');
+                    document.getElementById('giftSection').classList.remove('hidden');
+                    confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+                } else {
+                    alert('حدث خطأ بسيط في الإرسال، حاولي مرة أخرى!');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = 'إرسال الإجابات 💌';
+                }
+            } catch (error) {
+                alert('حدث خطأ في الاتصال، تأكدي من الإنترنت!');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'إرسال الإجابات 💌';
+            }
+        }
+
+        function openGiftModal() {
+            document.getElementById('giftModal').classList.remove('hidden');
+        }
+
+        function closeGiftModal() {
+            document.getElementById('giftModal').classList.add('hidden');
+            document.getElementById('errorMsg').classList.add('hidden');
+        }
+
+        function unlockGift() {
+            const pass = document.getElementById('giftPassword').value;
+            if (pass === "272007") {
+                closeGiftModal();
+                document.getElementById('giftSection').classList.add('hidden');
+                document.getElementById('giftContent').classList.remove('hidden');
+                confetti({ particleCount: 150, spread: 100, origin: { y: 0.5 } });
+            } else {
+                document.getElementById('errorMsg').classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
